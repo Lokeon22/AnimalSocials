@@ -1,11 +1,23 @@
+import { Dispatch, SetStateAction } from "react";
+
 interface CardType {
   id: number;
   url: string;
+  modal: boolean;
+  setModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export function Card({ id, url }: CardType) {
+export function Card({ id, url, modal, setModal }: CardType) {
+  function handleOpenModal() {
+    setModal(!modal);
+  }
+
   return (
-    <div key={id} className="relative w-full h-full flex hover:cursor-pointer">
+    <div
+      key={id}
+      className="relative w-full h-full flex hover:cursor-pointer"
+      onClick={handleOpenModal}
+    >
       <img
         className="w-full h-full md:max-h-[400px] object-cover"
         src={url}
