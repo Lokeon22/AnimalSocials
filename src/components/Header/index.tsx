@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import monkey from "../../icons/monkey.svg";
-import login from "../../icons/login.svg";
+import monkey from "../../assets/icons/monkey.svg";
+import login from "../../assets/icons/login.svg";
 
 export function Header() {
   return (
-    <header className="w-full h-full flex justify-between items-center border-b">
+    <header className="w-full h-full flex justify-between items-center border-b px-4 py-4">
       <img
         src={monkey}
         className="md:max-w-[65px] max-w-[55px]"
