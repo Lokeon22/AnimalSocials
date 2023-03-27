@@ -1,12 +1,12 @@
-import { Dispatch, SetStateAction } from "react";
-import lion from "../../assets/images/lion.jpg";
+import React, { Dispatch, SetStateAction } from "react";
+import monkey from "../../assets/images/monkey.jpg";
 
 interface ModalType {
   setModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export function Modal({ setModal }: ModalType) {
-  function handleOutsideClick(event: any) {
+  function handleOutsideClick(event: React.MouseEvent<HTMLElement>) {
     if (event.target === event.currentTarget) {
       return setModal(false);
     }
@@ -19,7 +19,7 @@ export function Modal({ setModal }: ModalType) {
     >
       <div className="grid grid-cols-1 grid-rows-[auto_1fr_auto] lg:grid-cols-5 mx-auto my-auto max-h-screen h-auto overflow-y-auto lg:h-[600px] rounded-lg overflow-hidden">
         <img
-          src={lion}
+          src={monkey}
           className="w-full h-full object-cover lg:col-span-3 row-[1/4]"
         />
         <div className="flex flex-col bg-white px-5 py-5 lg:col-span-2 row-span-4">

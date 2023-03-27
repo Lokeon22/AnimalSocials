@@ -8,7 +8,7 @@ export function Footer() {
         src={monkey}
         alt="Monkey icon logo"
       />
-      <span className="text-base">
+      <span className="text-sm sm:text-base">
         AnimalSocials - Todos os direitos reservados
       </span>
     </footer>
