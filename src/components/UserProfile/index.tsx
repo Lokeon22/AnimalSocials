@@ -2,27 +2,47 @@ import { useState } from "react";
 import { AiOutlineUser, AiOutlineMail, AiFillLock } from "react-icons/ai";
 import { useUser } from "../../context/auth";
 import { api } from "../../services/api";
-import lion from "../../assets/images/lion.jpg";
+
+import userAvatarDefault from "../../assets/icons/avatardefault.png";
 
 import { UserAvatar } from "../UserAvatar";
 import { InputIcon } from "../InputIcon";
 import { Button } from "../Button";
 
 export function UserProfile() {
-  const { user } = useUser();
+  const { user, handleUpdateProfile } = useUser();
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [oldpassword, setOldpassword] = useState<string | undefined>(
-    user?.user.password
-  );
+  const [oldpassword, setOldpassword] = useState<string>("");
   const [newPassword, setNewpassword] = useState<string>("");
+
+  const avatarURL = user?.user.avatar
+    ? `${api.defaults.baseURL}/files/${user.user.avatar}`
+    : userAvatarDefault;
+
+  const [avatar, setAvatar] = useState<string | undefined>(avatarURL);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+
+  function handleChangeAvatar(event: React.ChangeEvent<HTMLInputElement>) {
+    const target = event.target;
+    const file = (target.files as FileList)[0];
+
+    setAvatarFile(file);
+
+    const imagePreview = URL.createObjectURL(file);
+    setAvatar(imagePreview);
+  }
+
+  function handleProfile() {
+    handleUpdateProfile(name, email, newPassword, oldpassword, avatarFile);
+  }
 
   return (
     <section className="w-full h-full px-2 py-2">
       <h2 className="text-3xl font-medium mb-4 sm:mb-0">Perfil</h2>
       <div className="flex justify-center items-center flex-wrap gap-2 sm:gap-4 mb-4">
-        <UserAvatar avatar={lion} />
+        <UserAvatar avatar={avatar} handleChangeAvatar={handleChangeAvatar} />
         <ul className="flex flex-col justify-center gap-2">
           <li>
             <span className="text-base font-semibold">{user?.user.name}</span>
@@ -37,6 +57,7 @@ export function UserProfile() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          handleProfile();
         }}
         className="flex flex-col items-center gap-4"
       >

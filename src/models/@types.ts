@@ -5,7 +5,7 @@ export interface UserProps {
     email: string;
     password: string;
     old_password: string;
-    avatar: string | null;
+    avatar: string | undefined;
     created_at?: string;
     is_admin?: number;
   };
