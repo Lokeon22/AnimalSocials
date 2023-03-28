@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { AiOutlineUser, AiOutlineMail, AiFillLock } from "react-icons/ai";
+import { useUser } from "../../context/auth";
+import { api } from "../../services/api";
 import lion from "../../assets/images/lion.jpg";
 
 import { UserAvatar } from "../UserAvatar";
@@ -6,6 +9,15 @@ import { InputIcon } from "../InputIcon";
 import { Button } from "../Button";
 
 export function UserProfile() {
+  const { user } = useUser();
+
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [oldpassword, setOldpassword] = useState<string | undefined>(
+    user?.user.password
+  );
+  const [newPassword, setNewpassword] = useState<string>("");
+
   return (
     <section className="w-full h-full px-2 py-2">
       <h2 className="text-3xl font-medium mb-4 sm:mb-0">Perfil</h2>
@@ -13,42 +25,56 @@ export function UserProfile() {
         <UserAvatar avatar={lion} />
         <ul className="flex flex-col justify-center gap-2">
           <li>
-            <span className="text-base font-semibold">Gabriel Felipe</span>
+            <span className="text-base font-semibold">{user?.user.name}</span>
           </li>
           <li>
             <span className="text-sm font-medium text-gray-500">
-              gabriel@gmail.com
+              {user?.user.email}
             </span>
           </li>
         </ul>
       </div>
-      <form className="flex flex-col items-center gap-4">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+        className="flex flex-col items-center gap-4"
+      >
         <InputIcon
           name="username"
-          place="Username"
+          placeholder="Username"
           type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           icon={
             <AiOutlineUser className="absolute top-[15px] left-2 w-5 h-5" />
           }
         />
         <InputIcon
           name="email"
-          place="Email"
+          placeholder="Email"
           type="email"
+          value={email}
+          required
+          onChange={(e) => setEmail(e.target.value)}
           icon={
             <AiOutlineMail className="absolute top-[15px] left-2 w-5 h-5" />
           }
         />
         <InputIcon
           name="old_password"
-          place="Senha"
+          placeholder="Senha"
           type="password"
+          required
+          onChange={(e) => setOldpassword(e.target.value)}
           icon={<AiFillLock className="absolute top-[15px] left-2 w-5 h-5" />}
         />
         <InputIcon
           name="password"
-          place="Nova Senha"
+          placeholder="Nova Senha"
           type="password"
+          required
+          onChange={(e) => setNewpassword(e.target.value)}
           icon={<AiFillLock className="absolute top-[15px] left-2 w-5 h-5" />}
         />
         <Button text="Salvar" />

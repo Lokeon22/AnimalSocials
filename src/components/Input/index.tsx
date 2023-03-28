@@ -1,17 +1,13 @@
-interface InputProps {
-  place: string;
-  type: string;
-  name: string;
-}
+import type { ComponentPropsWithoutRef } from "react";
 
-export function Input({ place, type, name }: InputProps) {
+interface InputProps extends ComponentPropsWithoutRef<"input"> {}
+
+export function Input({ ...rest }: InputProps) {
   return (
     <input
       className="w-[300px] md:w-80 h-12 px-2 focus:bg-transparent outline-violet-700 hover:border hover:border-violet-700 bg-gray-200 hover:bg-transparent rounded placeholder:text-black"
-      type={type}
-      placeholder={place}
-      name={name}
       required
+      {...rest}
     />
   );
 }

@@ -1,14 +1,40 @@
+import { useState, useEffect } from "react";
+
 import { Link } from "react-router-dom";
 import { Input } from "../Input";
 import { Button } from "../Button";
+import { useUser } from "../../context/auth";
 
 export function LoginForm() {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const { handleLogin } = useUser();
+
   return (
     <>
-      <form className="flex flex-col gap-4">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleLogin(email, password);
+        }}
+        className="flex flex-col gap-4"
+      >
         <h2 className="text-5xl font-medium mb-4">Login</h2>
-        <Input type="text" place="Email ou Usuario" name="email" />
-        <Input type="password" place="Senha" name="password" />
+        <Input
+          type="text"
+          placeholder="Email ou Usuario"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="Senha"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <Button text="Entrar" />
       </form>
       <div className="w-max sm:w-full flex flex-col mt-10">
