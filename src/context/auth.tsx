@@ -66,13 +66,16 @@ export const UserProvider = ({ children }: ChildrenProps) => {
         fileUploadForm.append("avatar", avatarFile);
 
         const res = await api.patch("/avatar", fileUploadForm);
-        user!.user.avatar = res.data.avatar;
+        user!.user.avatar = res.data;
       }
 
       await api
         .put("/profile", { name, email, password: newpassword, old_password })
-        .then((res) => alert(res.data.message));
-      localStorage.setItem("@animals:user", JSON.stringify(user?.user));
+        .then((res) => {
+          alert(res.data.message);
+          navigate("/");
+        });
+
       if (user)
         setUser({
           user: {
@@ -87,6 +90,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
           },
           token: user?.token,
         });
+      localStorage.setItem("@animals:user", JSON.stringify(user?.user));
     } catch (error: any) {
       if (error.response.status === 500) {
         return alert("Email e/ou senha incorretos");

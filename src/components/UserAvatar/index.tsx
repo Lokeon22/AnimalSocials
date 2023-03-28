@@ -1,7 +1,7 @@
 import { AiOutlineCamera } from "react-icons/ai";
 
 interface UserProps {
-  avatar: string | undefined;
+  avatar: string;
   handleChangeAvatar: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

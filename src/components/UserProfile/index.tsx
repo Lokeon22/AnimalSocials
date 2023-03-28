@@ -21,7 +21,7 @@ export function UserProfile() {
     ? `${api.defaults.baseURL}/files/${user.user.avatar}`
     : userAvatarDefault;
 
-  const [avatar, setAvatar] = useState<string | undefined>(avatarURL);
+  const [avatar, setAvatar] = useState<string>(avatarURL);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   function handleChangeAvatar(event: React.ChangeEvent<HTMLInputElement>) {
@@ -34,8 +34,16 @@ export function UserProfile() {
     setAvatar(imagePreview);
   }
 
-  function handleProfile() {
-    handleUpdateProfile(name, email, newPassword, oldpassword, avatarFile);
+  console.log();
+
+  async function handleProfile() {
+    await handleUpdateProfile(
+      name,
+      email,
+      newPassword,
+      oldpassword,
+      avatarFile
+    );
   }
 
   return (
