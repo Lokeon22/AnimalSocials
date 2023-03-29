@@ -12,7 +12,7 @@ export interface UserProps {
   token: string;
 }
 
-export interface AllPostsProps {
+export interface PostsProps {
   id: number;
   title: string;
   description: string;

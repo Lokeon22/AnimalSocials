@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
 
-import { AllPostsProps } from "../models/@types";
+import { PostsProps } from "../models/@types";
 import { Card } from "../components/Card";
 import { Modal } from "../components/Modal";
 
 export function Home() {
   const [modal, setModal] = useState(false);
-  const [posts, setPosts] = useState<AllPostsProps[]>([]);
+  const [posts, setPosts] = useState<PostsProps[]>([]);
+  const [onePost, setOnepost] = useState<PostsProps[]>([]);
 
   useEffect(() => {
     api
@@ -16,10 +17,17 @@ export function Home() {
       .catch((error: any) => console.log(error.status.response));
   }, []);
 
+  function getPostModal(id: number) {
+    api
+      .get(`/post/modal/${id}`)
+      .then((res) => setOnepost(res.data))
+      .catch((error: any) => console.log(error.status.response));
+  }
+
   return (
     <main className="max-w-[1000px] min-h-screen h-full mx-auto my-0 flex-grow">
       <section className="w-full h-full md:mt-10 mt-8 grid md:grid-cols-3 grid-cols-2 md:gap-4 gap-2 mb-20 px-2 py-2 lg:px-0 lg:py-0">
-        {modal && <Modal setModal={setModal} />}
+        {modal && <Modal onePost={onePost} setModal={setModal} />}
         {posts.length > 0 ? (
           posts.map((post) => {
             return (
@@ -29,6 +37,7 @@ export function Home() {
                 image={post.image}
                 modal={modal}
                 setModal={setModal}
+                getPostModal={getPostModal}
               />
             );
           })

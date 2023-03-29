@@ -6,11 +6,13 @@ interface CardType {
   image: string;
   modal: boolean;
   setModal: Dispatch<SetStateAction<boolean>>;
+  getPostModal: (id: number) => void;
 }
 
-export function Card({ id, image, modal, setModal }: CardType) {
+export function Card({ id, image, modal, setModal, getPostModal }: CardType) {
   function handleOpenModal() {
     setModal(!modal);
+    getPostModal(id);
   }
 
   return (
