@@ -1,16 +1,37 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { api } from "../../services/api";
+import { useUser } from "../../context/auth";
+
 import { PostsProps } from "../../models/@types";
+import { UserPostName } from "../UserPostName";
+import { ButtonDeletePost } from "../ButtonDeletePost";
 
 interface ModalType {
+  username: string;
   onePost: PostsProps[];
   setModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export function Modal({ onePost, setModal }: ModalType) {
+export function Modal({ onePost, setModal, username }: ModalType) {
+  const { user } = useUser();
+
   function handleOutsideClick(event: React.MouseEvent<HTMLElement>) {
     if (event.target === event.currentTarget) {
       return setModal(false);
+    }
+  }
+
+  async function userDeletePost(postID: number) {
+    const confirmar = confirm("Deletar post?");
+
+    if (confirmar) {
+      await api
+        .delete(`/remove/${postID}`)
+        .then((res) => console.log(res.data.message))
+        .catch((error: any) => alert(error.status.message));
+      window.location.reload();
+    } else {
+      return;
     }
   }
 
@@ -30,7 +51,17 @@ export function Modal({ onePost, setModal }: ModalType) {
                   className="w-full h-full object-cover lg:col-span-3 row-[1/4]"
                 />
                 <div className="flex flex-col bg-white px-5 py-5 lg:col-span-2 row-span-4">
-                  <span className="text-lg text-gray-400 mb-2">@lion</span>
+                  <div className="flex gap-4 items-center">
+                    {user?.user.id !== post.user_id && (
+                      <UserPostName username={username} />
+                    )}
+                    {user?.user.id === post.user_id && (
+                      <ButtonDeletePost
+                        postID={post.id}
+                        userDeletePost={userDeletePost}
+                      />
+                    )}
+                  </div>
                   <h2 className="text-4xl font-medium mb-4">{post.title}</h2>
                   <p className="text-base">{post.description}</p>
                 </div>

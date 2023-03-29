@@ -3,16 +3,27 @@ import { api } from "../../services/api";
 
 interface CardType {
   id: number;
+  user_id: number;
   image: string;
   modal: boolean;
   setModal: Dispatch<SetStateAction<boolean>>;
   getPostModal: (id: number) => void;
+  getPostUserName: (id: number) => void;
 }
 
-export function Card({ id, image, modal, setModal, getPostModal }: CardType) {
+export function Card({
+  id,
+  user_id,
+  image,
+  modal,
+  setModal,
+  getPostModal,
+  getPostUserName,
+}: CardType) {
   function handleOpenModal() {
     setModal(!modal);
     getPostModal(id);
+    getPostUserName(user_id);
   }
 
   return (
