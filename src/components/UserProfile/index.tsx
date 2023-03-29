@@ -34,8 +34,6 @@ export function UserProfile() {
     setAvatar(imagePreview);
   }
 
-  console.log();
-
   async function handleProfile() {
     await handleUpdateProfile(
       name,
