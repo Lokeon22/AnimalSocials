@@ -11,3 +11,13 @@ export interface UserProps {
   };
   token: string;
 }
+
+export interface AllPostsProps {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  user_id: number;
+  created_at: string;
+  comments: [];
+}
