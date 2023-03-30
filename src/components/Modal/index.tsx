@@ -1,10 +1,12 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../../services/api";
 import { useUser } from "../../context/auth";
 
 import { PostsProps } from "../../models/@types";
 import { UserPostName } from "../UserPostName";
 import { ButtonDeletePost } from "../ButtonDeletePost";
+import { IoMdReturnRight } from "react-icons/io";
 
 interface ModalType {
   username: string;
@@ -51,7 +53,7 @@ export function Modal({ onePost, setModal, username }: ModalType) {
                   className="w-full h-full object-cover lg:col-span-3 row-[1/4]"
                 />
                 <div className="flex flex-col bg-white px-5 py-5 lg:col-span-2 row-span-4">
-                  <div className="flex gap-4 items-center">
+                  <div className="flex justify-between items-center gap-4">
                     {user?.user.id !== post.user_id && (
                       <UserPostName username={username} />
                     )}
@@ -61,6 +63,9 @@ export function Modal({ onePost, setModal, username }: ModalType) {
                         userDeletePost={userDeletePost}
                       />
                     )}
+                    <Link to={`/singlepost/${post.id}`}>
+                      <IoMdReturnRight className="w-6 h-6" />
+                    </Link>
                   </div>
                   <h2 className="text-4xl font-medium mb-4">{post.title}</h2>
                   <p className="text-base">{post.description}</p>

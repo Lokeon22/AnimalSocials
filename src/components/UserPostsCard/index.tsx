@@ -8,7 +8,7 @@ interface UserCardProps {
   user_id: number;
 }
 
-export function UserPostsCard({ id, image, user_id }: UserCardProps) {
+export function UserPostsCard({ image }: UserCardProps) {
   return (
     <div className="relative hover:cursor-pointer">
       <img
