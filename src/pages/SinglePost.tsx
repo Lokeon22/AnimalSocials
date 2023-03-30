@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { api } from "../services/api";
 
 import { PostsProps } from "../models/@types";
-import { ButtonComment } from "../components/ButtonComment";
 import { UserComments } from "../components/UserComments";
+import { CommentForm } from "../components/CommentForm";
 
 export function SinglePost() {
   const [singlepost, setSinglepost] = useState<PostsProps[]>([]);
@@ -19,15 +19,6 @@ export function SinglePost() {
 
     api.get(`/show/${user_id}`).then((res) => setUsername(res.data.name));
   }, [refreshKey]);
-
-  function handleCreateComment() {
-    api
-      .post(`/comment/${id}`, { comment, post_id: id, user_id })
-      .then((res) => setRefreshKey(res.data));
-    if (textareaRef.current) {
-      textareaRef.current.value = "";
-    }
-  }
 
   return (
     <>
@@ -64,22 +55,14 @@ export function SinglePost() {
                       );
                     })}
                   </div>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      handleCreateComment();
-                    }}
-                    className="flex mb-1 self-end items-center gap-2 row-span-1"
-                  >
-                    <textarea
-                      className="w-3/4 h-14 px-2 py-2 resize-none rounded-md focus:bg-transparent outline-violet-700 hover:border hover:border-violet-700 bg-gray-200 hover:bg-transparent  placeholder:text-black"
-                      placeholder="Comente..."
-                      onChange={(e) => setComment(e.target.value)}
-                      required
-                      ref={textareaRef}
-                    />
-                    <ButtonComment />
-                  </form>
+                  <CommentForm
+                    id={id}
+                    user_id={user_id}
+                    comment={comment}
+                    textareaRef={textareaRef}
+                    setComment={setComment}
+                    setRefreshKey={setRefreshKey}
+                  />
                 </section>
               </div>
             </section>

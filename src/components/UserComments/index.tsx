@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { api } from "../../services/api";
+import { useGetPostsDetails } from "../../hook/useGetposts";
 
 interface UserCommentsProps {
   comment: string;
@@ -12,23 +12,18 @@ interface UserDetailsProps {
 }
 
 export function UserComments({ comment, user_id }: UserCommentsProps) {
-  //const { userdetails } = useGetpost<UserDetailsProps>(user_id);
-  const [userdetails, setUserdetails] = useState<UserDetailsProps>();
-
-  useEffect(() => {
-    api.get(`/show/${user_id}`).then((res) => setUserdetails(res.data));
-  }, []);
+  const { usuario } = useGetPostsDetails<UserDetailsProps>(user_id);
 
   return (
-    <label className="flex items-center gap-1">
-      {userdetails && (
+    <label className="flex flex-wrap items-center gap-1">
+      {usuario && (
         <>
           <img
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
-            src={`${api.defaults.baseURL}/files/${userdetails?.avatar}`}
+            src={`${api.defaults.baseURL}/files/${usuario.avatar}`}
             alt="user photo"
           />
-          <span className="text-sm font-bold">{userdetails?.name}:</span>
+          <span className="text-sm font-bold">{usuario.name}:</span>
           <span className="text-sm">{comment}</span>
         </>
       )}

@@ -1,20 +1,31 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../services/api";
 import { useUser } from "../../context/auth";
 
+import { IoMdReturnRight } from "react-icons/io";
+
 import { PostsProps } from "../../models/@types";
 import { UserPostName } from "../UserPostName";
 import { ButtonDeletePost } from "../ButtonDeletePost";
-import { IoMdReturnRight } from "react-icons/io";
+import { UserComments } from "../UserComments";
+import { CommentForm } from "../CommentForm";
 
 interface ModalType {
   username: string;
   onePost: PostsProps[];
   setModal: Dispatch<SetStateAction<boolean>>;
+  setRefreshKey: Dispatch<SetStateAction<string>>;
 }
 
-export function Modal({ onePost, setModal, username }: ModalType) {
+export function Modal({
+  onePost,
+  setModal,
+  username,
+  setRefreshKey,
+}: ModalType) {
+  const [comment, setComment] = useState<string>("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useUser();
 
   function handleOutsideClick(event: React.MouseEvent<HTMLElement>) {
@@ -47,12 +58,12 @@ export function Modal({ onePost, setModal, username }: ModalType) {
               className="fixed w-screen h-screen top-0 left-0 z-50 bg-gray-500 bg-opacity-50 sm:py-8 sm:px-16 px-8 py-8 flex"
               onClick={handleOutsideClick}
             >
-              <div className="grid grid-cols-1 grid-rows-[auto_1fr_auto] lg:grid-cols-5 mx-auto my-auto max-h-screen h-auto overflow-y-auto lg:h-[600px] rounded-lg overflow-hidden">
+              <div className="w-full md:w-3/5 grid grid-cols-1 grid-rows-[auto_1fr_auto] lg:grid-cols-2 mx-auto my-auto max-h-full h-auto overflow-y-auto lg:h-[600px] rounded-lg overflow-hidden">
                 <img
                   src={`${api.defaults.baseURL}/files/${post.image}`}
-                  className="w-full h-full object-cover lg:col-span-3 row-[1/4]"
+                  className="w-full h-full object-cover lg:col-span-1 row-[1/4]"
                 />
-                <div className="flex flex-col bg-white px-5 py-5 lg:col-span-2 row-span-4">
+                <div className="flex flex-col bg-white px-5 py-5 lg:col-span-1 row-span-4">
                   <div className="flex justify-between items-center gap-4">
                     {user?.user.id !== post.user_id && (
                       <UserPostName username={username} />
@@ -67,8 +78,33 @@ export function Modal({ onePost, setModal, username }: ModalType) {
                       <IoMdReturnRight className="w-6 h-6" />
                     </Link>
                   </div>
-                  <h2 className="text-4xl font-medium mb-4">{post.title}</h2>
-                  <p className="text-base">{post.description}</p>
+
+                  <h2 className="text-2xl sm:text-4xl font-semibold mb-1 sm:mb-4">
+                    {post.title}
+                  </h2>
+                  <p className="text-bold text-base">{post.description}</p>
+
+                  <div className="flex flex-col w-full h-36 md:h-96 gap-4 overflow-y-auto my-5">
+                    {post.comments.map((userComment) => {
+                      return (
+                        <UserComments
+                          key={userComment.id}
+                          comment={userComment.comment}
+                          user_id={userComment.user_id}
+                        />
+                      );
+                    })}
+                  </div>
+                  <div>
+                    <CommentForm
+                      comment={comment}
+                      textareaRef={textareaRef}
+                      user_id={user?.user.id}
+                      id={post.id}
+                      setComment={setComment}
+                      setRefreshKey={setRefreshKey}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
