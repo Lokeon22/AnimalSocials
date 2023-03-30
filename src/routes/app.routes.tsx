@@ -10,7 +10,7 @@ export function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/login/*" element={<Login />} />
       <Route path="/profile/*" element={<Profile />} />
-      <Route path="/singlepost/:id" element={<SinglePost />} />
+      <Route path="/singlepost/:id/:user_id" element={<SinglePost />} />
     </Routes>
   );
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
+import { useGetpost } from "../hook/useGetPost";
 
 import { PostsProps } from "../models/@types";
 import { Card } from "../components/Card";

@@ -63,7 +63,7 @@ export function Modal({ onePost, setModal, username }: ModalType) {
                         userDeletePost={userDeletePost}
                       />
                     )}
-                    <Link to={`/singlepost/${post.id}`}>
+                    <Link to={`/singlepost/${post.id}/${post.user_id}`}>
                       <IoMdReturnRight className="w-6 h-6" />
                     </Link>
                   </div>

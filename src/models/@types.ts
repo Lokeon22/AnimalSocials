@@ -19,5 +19,13 @@ export interface PostsProps {
   image: string;
   user_id: number;
   created_at: string;
-  comments: [];
+  comments: Comments[];
+}
+
+interface Comments {
+  id: number;
+  comment: string;
+  post_id: number;
+  user_id: number;
+  create_at: string;
 }
