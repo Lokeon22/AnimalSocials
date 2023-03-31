@@ -73,6 +73,7 @@ export function UserProfile() {
           placeholder="Username"
           type="text"
           value={name}
+          required
           onChange={(e) => setName(e.target.value)}
           icon={
             <AiOutlineUser className="absolute top-[15px] left-2 w-5 h-5" />

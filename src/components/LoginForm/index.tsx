@@ -23,7 +23,7 @@ export function LoginForm() {
         <h2 className="text-5xl font-medium mb-4">Login</h2>
         <Input
           type="text"
-          placeholder="Email ou Usuario"
+          placeholder="Email"
           name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
