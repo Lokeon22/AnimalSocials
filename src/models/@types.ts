@@ -12,6 +12,14 @@ export interface UserProps {
   token: string;
 }
 
+export interface UserDetails {
+  id: number;
+  name: string;
+  email: string;
+  avatar: string;
+  created_at: string;
+}
+
 export interface PostsProps {
   id: number;
   title: string;

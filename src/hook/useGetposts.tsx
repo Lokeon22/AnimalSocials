@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
 
-export function useGetPostsDetails<T>(user_id: number) {
+export function useGetPostsDetails<T>(user_id: number | string) {
   const [usuario, setUsuario] = useState<T>();
 
   useEffect(() => {

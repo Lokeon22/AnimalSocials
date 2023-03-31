@@ -52,7 +52,7 @@ export function Modal({
                 <div className="flex flex-col bg-white px-5 py-5 lg:col-span-1 row-span-4">
                   <div className="flex justify-between items-center gap-4">
                     {user?.user.id !== post.user_id ? (
-                      <UserPostName username={username} />
+                      <UserPostName username={username} id={post.user_id} />
                     ) : (
                       <ButtonDeletePost postID={post.id} />
                     )}

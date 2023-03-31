@@ -1,5 +1,6 @@
 import { api } from "../../services/api";
 import { useGetPostsDetails } from "../../hook/useGetposts";
+import { Link } from "react-router-dom";
 
 interface UserCommentsProps {
   comment: string;
@@ -18,12 +19,16 @@ export function UserComments({ comment, user_id }: UserCommentsProps) {
     <label className="flex flex-wrap items-center gap-1">
       {usuario && (
         <>
-          <img
-            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
-            src={`${api.defaults.baseURL}/files/${usuario.avatar}`}
-            alt="user photo"
-          />
-          <span className="text-sm font-bold">{usuario.name}:</span>
+          <Link to={`/userperfil/${user_id}`}>
+            <img
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
+              src={`${api.defaults.baseURL}/files/${usuario.avatar}`}
+              alt="user photo"
+            />
+          </Link>
+          <Link to={`/userperfil/${user_id}`}>
+            <span className="text-sm font-bold">{usuario.name}:</span>
+          </Link>
           <span className="text-sm">{comment}</span>
         </>
       )}

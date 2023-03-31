@@ -5,7 +5,7 @@ import { useUser } from "../../context/auth";
 import { UserPostsCard } from "../UserPostsCard";
 import { Title } from "../Title";
 
-interface PostType {
+export interface PostType {
   id: number;
   comments?: [];
   title?: string;

@@ -41,7 +41,7 @@ export function SinglePost() {
                 <section className="w-full h-full grid py-1 sm:py-4">
                   <div className="flex flex-col gap-2 row-span-1">
                     {user?.user.id !== post.user_id ? (
-                      <UserPostName username={username} />
+                      <UserPostName username={username} id={post.user_id} />
                     ) : (
                       <div>
                         <ButtonDeletePost postID={post.id} />

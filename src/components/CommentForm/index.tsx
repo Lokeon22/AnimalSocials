@@ -1,4 +1,5 @@
 import { api } from "../../services/api";
+import { useUser } from "../../context/auth";
 import { ButtonComment } from "../ButtonComment";
 
 interface CommentFormProps {
@@ -18,6 +19,8 @@ export function CommentForm({
   setComment,
   setRefreshKey,
 }: CommentFormProps) {
+  const { user } = useUser();
+
   function handleCreateComment() {
     api
       .post(`/comment/${id}`, { comment, post_id: id, user_id })
@@ -28,21 +31,25 @@ export function CommentForm({
   }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleCreateComment();
-      }}
-      className="flex mb-1 self-end items-center gap-2 row-span-1"
-    >
-      <textarea
-        className="w-3/4 h-14 px-2 py-2 resize-none rounded-md focus:bg-transparent outline-violet-700 hover:border hover:border-violet-700 bg-gray-200 hover:bg-transparent  placeholder:text-black"
-        placeholder="Comente..."
-        onChange={(e) => setComment(e.target.value)}
-        required
-        ref={textareaRef}
-      />
-      <ButtonComment />
-    </form>
+    <>
+      {user && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleCreateComment();
+          }}
+          className="flex mb-1 self-end items-center gap-2 row-span-1"
+        >
+          <textarea
+            className="w-3/4 h-14 px-2 py-2 resize-none rounded-md focus:bg-transparent outline-violet-700 hover:border hover:border-violet-700 bg-gray-200 hover:bg-transparent  placeholder:text-black"
+            placeholder="Comente..."
+            onChange={(e) => setComment(e.target.value)}
+            required
+            ref={textareaRef}
+          />
+          <ButtonComment />
+        </form>
+      )}
+    </>
   );
 }

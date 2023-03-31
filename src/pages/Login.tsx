@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { LoginForm } from "../components/LoginForm";
 import { LoginCreate } from "../components/LoginCreate";
+import { NotFound } from "../components/Helper/NotFound";
 
 import monkey_wallpaper from "../assets/icons/monkey_wallpaper.jpg";
 
@@ -16,6 +17,7 @@ export function Login() {
         <Routes>
           <Route path="/" element={<LoginForm />} />
           <Route path="create" element={<LoginCreate />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </section>
     </main>
