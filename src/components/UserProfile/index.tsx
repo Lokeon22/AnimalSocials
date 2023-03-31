@@ -6,6 +6,7 @@ import { api } from "../../services/api";
 import userAvatarDefault from "../../assets/icons/avatardefault.png";
 
 import { UserAvatar } from "../UserAvatar";
+import { Title } from "../Title";
 import { InputIcon } from "../InputIcon";
 import { Button } from "../Button";
 
@@ -46,7 +47,7 @@ export function UserProfile() {
 
   return (
     <section className="w-full h-full px-2 py-2">
-      <h2 className="text-3xl font-medium mb-4 sm:mb-0">Perfil</h2>
+      <Title text="Perfil" />
       <div className="flex justify-center items-center flex-wrap gap-2 sm:gap-4 mb-4">
         <UserAvatar avatar={avatar} handleChangeAvatar={handleChangeAvatar} />
         <ul className="flex flex-col justify-center gap-2">

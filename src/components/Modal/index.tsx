@@ -34,20 +34,6 @@ export function Modal({
     }
   }
 
-  async function userDeletePost(postID: number) {
-    const confirmar = confirm("Deletar post?");
-
-    if (confirmar) {
-      await api
-        .delete(`/remove/${postID}`)
-        .then((res) => console.log(res.data.message))
-        .catch((error: any) => alert(error.status.message));
-      window.location.reload();
-    } else {
-      return;
-    }
-  }
-
   return (
     <>
       {onePost.length > 0 &&
@@ -65,14 +51,10 @@ export function Modal({
                 />
                 <div className="flex flex-col bg-white px-5 py-5 lg:col-span-1 row-span-4">
                   <div className="flex justify-between items-center gap-4">
-                    {user?.user.id !== post.user_id && (
+                    {user?.user.id !== post.user_id ? (
                       <UserPostName username={username} />
-                    )}
-                    {user?.user.id === post.user_id && (
-                      <ButtonDeletePost
-                        postID={post.id}
-                        userDeletePost={userDeletePost}
-                      />
+                    ) : (
+                      <ButtonDeletePost postID={post.id} />
                     )}
                     <Link to={`/singlepost/${post.id}/${post.user_id}`}>
                       <IoMdReturnRight className="w-6 h-6" />
@@ -84,7 +66,7 @@ export function Modal({
                   </h2>
                   <p className="text-bold text-base">{post.description}</p>
 
-                  <div className="flex flex-col w-full h-36 md:h-96 gap-4 overflow-y-auto my-5">
+                  <div className="flex flex-col w-full h-36 md:h-96 gap-4 my-5 overflow-y-auto scrollbar-hide sm:scrollbar-default scroll-smooth scrollbar-thin scrollbar-thumb-[#5f6177] scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
                     {post.comments.map((userComment) => {
                       return (
                         <UserComments

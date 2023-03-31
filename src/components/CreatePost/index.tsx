@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 
 import { Input } from "../Input";
+import { Title } from "../Title";
 import { Button } from "../Button";
 
 export function CreatePost() {
@@ -48,7 +49,7 @@ export function CreatePost() {
         }}
         className="flex flex-col gap-4"
       >
-        <h2 className="text-3xl mb-5 sm:mb-10">Criar postagem</h2>
+        <Title text="Criar Postagem" />
         <Input
           name="titulo"
           placeholder="Titulo"

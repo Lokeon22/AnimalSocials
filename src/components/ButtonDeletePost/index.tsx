@@ -1,12 +1,24 @@
+import { api } from "../../services/api";
+
 interface ButtonDeleteProps {
   postID: number;
-  userDeletePost: (postID: number) => void;
 }
 
-export function ButtonDeletePost({
-  userDeletePost,
-  postID,
-}: ButtonDeleteProps) {
+export function ButtonDeletePost({ postID }: ButtonDeleteProps) {
+  async function userDeletePost(postID: number) {
+    const confirmar = confirm("Deletar post?");
+
+    if (confirmar) {
+      await api
+        .delete(`/remove/${postID}`)
+        .then((res) => console.log(res.data.message))
+        .catch((error: any) => alert(error.status.message));
+      window.location.reload();
+    } else {
+      return;
+    }
+  }
+
   return (
     <button
       onClick={(e) => {

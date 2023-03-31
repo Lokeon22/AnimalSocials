@@ -1,12 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../services/api";
+import { useUser } from "../context/auth";
 
 import { PostsProps } from "../models/@types";
 import { UserComments } from "../components/UserComments";
 import { CommentForm } from "../components/CommentForm";
+import { UserPostName } from "../components/UserPostName";
+import { ButtonDeletePost } from "../components/ButtonDeletePost";
 
 export function SinglePost() {
+  const { user } = useUser();
   const [singlepost, setSinglepost] = useState<PostsProps[]>([]);
   const [username, setUsername] = useState<string>("");
   const [comment, setComment] = useState<string>("");
@@ -36,7 +40,13 @@ export function SinglePost() {
                 />
                 <section className="w-full h-full grid py-1 sm:py-4">
                   <div className="flex flex-col gap-2 row-span-1">
-                    <span className="text-lg">@{username}</span>
+                    {user?.user.id !== post.user_id ? (
+                      <UserPostName username={username} />
+                    ) : (
+                      <div>
+                        <ButtonDeletePost postID={post.id} />
+                      </div>
+                    )}
                     <h2 className="text-3xl sm:text-4xl font-bold mb-1">
                       {post.title}
                     </h2>
@@ -44,7 +54,7 @@ export function SinglePost() {
                       {post.description}
                     </p>
                   </div>
-                  <div className="flex flex-col w-full h-36 md:h-96 gap-4 overflow-y-auto my-5">
+                  <div className="flex flex-col w-full h-36 md:h-96 gap-4 my-5 overflow-y-auto scrollbar-hide sm:scrollbar-default scroll-smooth scrollbar-thin scrollbar-thumb-[#5f6177] scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
                     {post.comments.map((userComment) => {
                       return (
                         <UserComments

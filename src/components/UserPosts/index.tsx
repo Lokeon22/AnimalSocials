@@ -3,6 +3,7 @@ import { api } from "../../services/api";
 import { useUser } from "../../context/auth";
 
 import { UserPostsCard } from "../UserPostsCard";
+import { Title } from "../Title";
 
 interface PostType {
   id: number;
@@ -31,7 +32,7 @@ export function UserPosts() {
 
   return (
     <section className="w-full h-full px-2 py-2">
-      <h2 className="text-3xl mb-10">Suas publicações</h2>
+      <Title text="Suas Publicações" />
       <main className="flex flex-wrap justify-center items-center gap-4">
         {userPosts.length > 0 ? (
           userPosts.map((post) => {
