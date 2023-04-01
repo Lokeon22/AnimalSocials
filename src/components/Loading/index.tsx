@@ -13,7 +13,7 @@ export function Loading() {
         />
         <GiBananaBunch className="text-yellow-400 w-16 h-16 animate-bounce lg:block hidden" />
         <AiOutlineLoading3Quarters className="w-20 h-20 animate-spin lg:hidden block" />
-        <span className="block lg:hidden">Procurando posts...</span>
+        <span className="block lg:hidden">Carregando...</span>
       </div>
     </section>
   );

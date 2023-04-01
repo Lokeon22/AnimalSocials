@@ -6,11 +6,12 @@ import { useGetPostsDetails } from "../hook/useGetposts";
 import { UserDetails } from "../models/@types";
 import { PostType } from "../components/UserPosts";
 import { UserPostsCard } from "../components/UserPostsCard";
+import { Loading } from "../components/Loading";
 
 export function UserProfilePost() {
   const [posts, setPosts] = useState<PostType[]>([]);
   const { id } = useParams();
-  const { usuario } = useGetPostsDetails<UserDetails>(id!);
+  const { usuario, loading } = useGetPostsDetails<UserDetails>(id!);
 
   let date_db = usuario?.created_at.slice(0, 10);
   let date_brl = date_db?.split("-").reverse().join("/");
@@ -21,6 +22,7 @@ export function UserProfilePost() {
 
   return (
     <section className="max-w-[1000px] min-h-screen mx-auto my-0 flex-grow px-2 py-2">
+      {loading && <Loading />}
       {usuario && (
         <>
           <main className="w-full h-full flex flex-wrap items-center gap-4 mt-8">

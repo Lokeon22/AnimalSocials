@@ -8,6 +8,7 @@ import { UserComments } from "../components/UserComments";
 import { CommentForm } from "../components/CommentForm";
 import { UserPostName } from "../components/UserPostName";
 import { ButtonDeletePost } from "../components/ButtonDeletePost";
+import { Loading } from "../components/Loading";
 
 export function SinglePost() {
   const { user } = useUser();
@@ -15,6 +16,7 @@ export function SinglePost() {
   const [username, setUsername] = useState<string>("");
   const [comment, setComment] = useState<string>("");
   const [refreshKey, setRefreshKey] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { id, user_id } = useParams(); //id = post_id
 
@@ -22,18 +24,20 @@ export function SinglePost() {
     api.get(`/post/modal/${id}`).then((res) => setSinglepost(res.data));
 
     api.get(`/show/${user_id}`).then((res) => setUsername(res.data.name));
+    setLoading(false);
   }, [refreshKey]);
 
   return (
     <>
-      {singlepost.length > 0 &&
-        singlepost.map((post) => {
-          return (
-            <section
-              key={post.id}
-              className="w-full min-h-screen h-full flex-grow px-2 py-2"
-            >
-              <div className="max-w-[1000px] h-min mx-auto my-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+      <section className="w-full min-h-screen h-full flex-grow px-2 py-2">
+        {loading && <Loading />}
+        {singlepost.length > 0 &&
+          singlepost.map((post) => {
+            return (
+              <div
+                key={post.id}
+                className="max-w-[1000px] h-min mx-auto my-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-5"
+              >
                 <img
                   className="w-full h-full md:w-full md:h-[700px] object-cover rounded-md"
                   src={`${api.defaults.baseURL}/files/${post.image}`}
@@ -75,9 +79,9 @@ export function SinglePost() {
                   />
                 </section>
               </div>
-            </section>
-          );
-        })}
+            );
+          })}
+      </section>
     </>
   );
 }
