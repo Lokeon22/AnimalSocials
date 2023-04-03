@@ -1,9 +1,10 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../services/api";
 import { useUser } from "../context/auth";
+import { useQuery } from "@tanstack/react-query";
 
-import { PostsProps } from "../models/@types";
+import { PostsProps, UserDetails } from "../models/@types";
 import { UserComments } from "../components/UserComments";
 import { CommentForm } from "../components/CommentForm";
 import { UserPostName } from "../components/UserPostName";
@@ -13,25 +14,31 @@ import { Loading } from "../components/Loading";
 export function SinglePost() {
   const { user } = useUser();
   const [singlepost, setSinglepost] = useState<PostsProps[]>([]);
-  const [username, setUsername] = useState<string>("");
   const [comment, setComment] = useState<string>("");
-  const [refreshKey, setRefreshKey] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { id, user_id } = useParams(); //id = post_id
 
-  useEffect(() => {
-    api.get(`/post/modal/${id}`).then((res) => setSinglepost(res.data));
+  async function getSinglePost() {
+    await api
+      .get<PostsProps[]>(`/post/modal/${id}`)
+      .then((res) => setSinglepost(res.data));
+    return singlepost;
+  }
 
-    api.get(`/show/${user_id}`).then((res) => setUsername(res.data.name));
-    setLoading(false);
-  }, [refreshKey]);
+  useQuery(["getSinglePost"], getSinglePost);
+
+  async function getUsername() {
+    const response = await api.get<UserDetails>(`/show/${user_id}`);
+    return response.data.name;
+  }
+
+  const { data: username } = useQuery(["getUsername"], getUsername);
 
   return (
     <>
       <section className="w-full min-h-screen h-full flex-grow px-2 py-2">
-        {loading && <Loading />}
-        {singlepost.length > 0 &&
+        {singlepost.length === 0 && <Loading />}
+        {singlepost &&
           singlepost.map((post) => {
             return (
               <div
@@ -75,7 +82,7 @@ export function SinglePost() {
                     comment={comment}
                     textareaRef={textareaRef}
                     setComment={setComment}
-                    setRefreshKey={setRefreshKey}
+                    setOnepost={setSinglepost}
                   />
                 </section>
               </div>

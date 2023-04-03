@@ -1,7 +1,7 @@
 import { api } from "../../services/api";
 import { useUser } from "../../context/auth";
 import { ButtonComment } from "../ButtonComment";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PostsProps } from "../../models/@types";
 
 interface CommentFormProps {
@@ -23,6 +23,8 @@ export function CommentForm({
 }: CommentFormProps) {
   const { user } = useUser();
 
+  const queryClient = useQueryClient();
+
   const { mutate } = useMutation(
     () => api.post(`/comment/${id}`, { comment, post_id: id, user_id }),
     {
@@ -31,6 +33,7 @@ export function CommentForm({
           textareaRef.current.value = "";
         }
         api.get(`/post/modal/${id}`).then((res) => setOnepost(res.data));
+        queryClient.invalidateQueries(["getSinglePost"]);
       },
     }
   );
