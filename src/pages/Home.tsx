@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { api } from "../services/api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 import { PostsProps } from "../models/@types";
 import { Card } from "../components/Card";
 import { Modal } from "../components/Modal";
 import { Loading } from "../components/Loading";
+import { LoadingModal } from "../components/Helper/LoadingModal";
 
 export function Home() {
   const [modal, setModal] = useState(false);
   const [onePost, setOnepost] = useState<PostsProps[]>([]);
-  const [refreshKey, setRefreshKey] = useState<string>("");
   const [username, setUsername] = useState<string>("");
 
   async function getPosts() {
@@ -23,19 +23,13 @@ export function Home() {
     queryFn: getPosts,
   });
 
-  function getPostModal(id: number) {
-    api
-      .get(`/post/modal/${id}`)
-      .then((res) => setOnepost(res.data))
-      .catch((error: any) => console.log(error.status.response));
-  }
-
-  useEffect(() => {
-    // renderiza quando abrir o modal, o valor refreshKey atualiza quando o usuario faz um comentario,
-    // então ele atualiza o post aberto a os comentarios, renderizando eles novamente
-    onePost.length > 0 && getPostModal(onePost[0].id);
-    return;
-  }, [refreshKey]);
+  const { mutate, isLoading: loadingModal } = useMutation(
+    ["getPostModal"],
+    async (id: number) => {
+      const response = await api.get<PostsProps[]>(`/post/modal/${id}`);
+      return setOnepost(response.data);
+    }
+  );
 
   function getPostUserName(user_id: number) {
     api.get(`/show/${user_id}`).then((res) => setUsername(res.data.name));
@@ -46,12 +40,13 @@ export function Home() {
       {isLoading && <Loading />}
       <main className="max-w-[1000px] min-h-screen h-full mx-auto my-0 flex-grow">
         <section className="w-full h-full md:mt-10 mt-8 grid md:grid-cols-3 grid-cols-2 md:gap-4 gap-2 mb-20 px-2 py-2 lg:px-0 lg:py-0">
-          {modal && (
+          {loadingModal && <LoadingModal />}
+          {modal && !loadingModal && (
             <Modal
               onePost={onePost}
               setModal={setModal}
               username={username}
-              setRefreshKey={setRefreshKey}
+              setOnepost={setOnepost}
             />
           )}
           {data &&
@@ -64,7 +59,7 @@ export function Home() {
                   image={post.image}
                   modal={modal}
                   setModal={setModal}
-                  getPostModal={getPostModal}
+                  mutate={mutate}
                   getPostUserName={getPostUserName}
                 />
               );

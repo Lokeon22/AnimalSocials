@@ -1,6 +1,8 @@
 import { api } from "../../services/api";
 import { useUser } from "../../context/auth";
 import { ButtonComment } from "../ButtonComment";
+import { useMutation } from "@tanstack/react-query";
+import { PostsProps } from "../../models/@types";
 
 interface CommentFormProps {
   id?: string | number;
@@ -8,7 +10,7 @@ interface CommentFormProps {
   comment: string;
   textareaRef: React.RefObject<HTMLTextAreaElement>;
   setComment: React.Dispatch<React.SetStateAction<string>>;
-  setRefreshKey: React.Dispatch<React.SetStateAction<string>>;
+  setOnepost: React.Dispatch<React.SetStateAction<PostsProps[]>>;
 }
 
 export function CommentForm({
@@ -17,18 +19,21 @@ export function CommentForm({
   comment,
   textareaRef,
   setComment,
-  setRefreshKey,
+  setOnepost,
 }: CommentFormProps) {
   const { user } = useUser();
 
-  function handleCreateComment() {
-    api
-      .post(`/comment/${id}`, { comment, post_id: id, user_id })
-      .then((res) => setRefreshKey(res.data));
-    if (textareaRef.current) {
-      textareaRef.current.value = "";
+  const { mutate } = useMutation(
+    () => api.post(`/comment/${id}`, { comment, post_id: id, user_id }),
+    {
+      onSuccess: () => {
+        if (textareaRef.current) {
+          textareaRef.current.value = "";
+        }
+        api.get(`/post/modal/${id}`).then((res) => setOnepost(res.data));
+      },
     }
-  }
+  );
 
   return (
     <>
@@ -36,7 +41,7 @@ export function CommentForm({
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleCreateComment();
+            mutate();
           }}
           className="flex mb-1 self-end items-center gap-2 row-span-1"
         >

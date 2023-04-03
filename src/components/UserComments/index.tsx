@@ -13,10 +13,13 @@ interface UserDetailsProps {
 }
 
 export function UserComments({ comment, user_id }: UserCommentsProps) {
-  const { usuario } = useGetPostsDetails<UserDetailsProps>(user_id);
+  const { usuario, loading } = useGetPostsDetails<UserDetailsProps>(user_id);
 
   return (
     <label className="flex flex-wrap items-center gap-1">
+      {loading && (
+        <h2 className="text-sm font-medium">Carregando comentarios...</h2>
+      )}
       {usuario && (
         <>
           <Link to={`/userperfil/${user_id}`}>

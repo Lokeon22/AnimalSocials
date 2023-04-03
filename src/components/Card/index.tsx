@@ -7,7 +7,7 @@ interface CardType {
   image: string;
   modal: boolean;
   setModal: Dispatch<SetStateAction<boolean>>;
-  getPostModal: (id: number) => void;
+  mutate: (id: number) => void;
   getPostUserName: (id: number) => void;
 }
 
@@ -17,12 +17,12 @@ export function Card({
   image,
   modal,
   setModal,
-  getPostModal,
+  mutate,
   getPostUserName,
 }: CardType) {
   function handleOpenModal() {
     setModal(!modal);
-    getPostModal(id);
+    mutate(id);
     getPostUserName(user_id);
   }
 

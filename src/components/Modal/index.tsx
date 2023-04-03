@@ -15,15 +15,10 @@ interface ModalType {
   username: string;
   onePost: PostsProps[];
   setModal: Dispatch<SetStateAction<boolean>>;
-  setRefreshKey: Dispatch<SetStateAction<string>>;
+  setOnepost: React.Dispatch<React.SetStateAction<PostsProps[]>>;
 }
 
-export function Modal({
-  onePost,
-  setModal,
-  username,
-  setRefreshKey,
-}: ModalType) {
+export function Modal({ onePost, setModal, username, setOnepost }: ModalType) {
   const [comment, setComment] = useState<string>("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useUser();
@@ -36,7 +31,7 @@ export function Modal({
 
   return (
     <>
-      {onePost.length > 0 &&
+      {onePost &&
         onePost.map((post) => {
           return (
             <div
@@ -84,7 +79,7 @@ export function Modal({
                       user_id={user?.user.id}
                       id={post.id}
                       setComment={setComment}
-                      setRefreshKey={setRefreshKey}
+                      setOnepost={setOnepost}
                     />
                   </div>
                 </div>
