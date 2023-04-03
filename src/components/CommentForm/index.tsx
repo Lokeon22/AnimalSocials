@@ -1,4 +1,5 @@
 import { api } from "../../services/api";
+import { useMutation } from "@tanstack/react-query";
 import { useUser } from "../../context/auth";
 import { ButtonComment } from "../ButtonComment";
 
@@ -11,6 +12,12 @@ interface CommentFormProps {
   setRefreshKey: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface CreateCommentProps {
+  id?: number | string;
+  comment: string;
+  user_id?: number | string;
+}
+
 export function CommentForm({
   id,
   user_id,
@@ -21,14 +28,23 @@ export function CommentForm({
 }: CommentFormProps) {
   const { user } = useUser();
 
-  function handleCreateComment() {
-    api
-      .post(`/comment/${id}`, { comment, post_id: id, user_id })
-      .then((res) => setRefreshKey(res.data));
-    if (textareaRef.current) {
-      textareaRef.current.value = "";
-    }
-  }
+  const mutation = useMutation({
+    mutationFn: ({ id, comment, user_id }: CreateCommentProps) => {
+      return api
+        .post<CreateCommentProps>(`/comment/${id}`, {
+          comment,
+          post_id: id,
+          user_id,
+        })
+        .then((res) => res.data);
+    },
+    onSuccess: (data) => {
+      if (textareaRef.current) {
+        textareaRef.current.value = "";
+      }
+      setRefreshKey(data.comment);
+    },
+  });
 
   return (
     <>
@@ -36,7 +52,7 @@ export function CommentForm({
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleCreateComment();
+            mutation.mutate({ id, comment, user_id });
           }}
           className="flex mb-1 self-end items-center gap-2 row-span-1"
         >

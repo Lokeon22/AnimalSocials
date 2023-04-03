@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
+import { useQuery } from "@tanstack/react-query";
 
 import { PostsProps } from "../models/@types";
 import { Card } from "../components/Card";
@@ -8,21 +9,19 @@ import { Loading } from "../components/Loading";
 
 export function Home() {
   const [modal, setModal] = useState(false);
-  const [posts, setPosts] = useState<PostsProps[]>([]);
   const [onePost, setOnepost] = useState<PostsProps[]>([]);
   const [refreshKey, setRefreshKey] = useState<string>("");
   const [username, setUsername] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    api
-      .get("/posts")
-      .then((res) => {
-        setPosts(res.data);
-        setLoading(false);
-      })
-      .catch((error: any) => console.log(error.status.response));
-  }, []);
+  async function getPosts() {
+    const response = await api.get<PostsProps[]>("/posts");
+    return response.data;
+  }
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["posts"],
+    queryFn: getPosts,
+  });
 
   function getPostModal(id: number) {
     api
@@ -44,7 +43,7 @@ export function Home() {
 
   return (
     <>
-      {loading && <Loading />}
+      {isLoading && <Loading />}
       <main className="max-w-[1000px] min-h-screen h-full mx-auto my-0 flex-grow">
         <section className="w-full h-full md:mt-10 mt-8 grid md:grid-cols-3 grid-cols-2 md:gap-4 gap-2 mb-20 px-2 py-2 lg:px-0 lg:py-0">
           {modal && (
@@ -55,8 +54,8 @@ export function Home() {
               setRefreshKey={setRefreshKey}
             />
           )}
-          {posts.length > 0 &&
-            posts.map((post) => {
+          {data &&
+            data.map((post) => {
               return (
                 <Card
                   key={post.id}
