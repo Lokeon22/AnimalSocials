@@ -18,7 +18,7 @@ export function Home() {
     return response.data;
   }
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: getPosts,
   });
@@ -43,6 +43,7 @@ export function Home() {
           {loadingModal && <LoadingModal />}
           {modal && !loadingModal && (
             <Modal
+              refetch={refetch}
               onePost={onePost}
               setModal={setModal}
               username={username}

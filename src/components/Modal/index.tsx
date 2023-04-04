@@ -16,9 +16,16 @@ interface ModalType {
   onePost: PostsProps[];
   setModal: Dispatch<SetStateAction<boolean>>;
   setOnepost: React.Dispatch<React.SetStateAction<PostsProps[]>>;
+  refetch: () => void;
 }
 
-export function Modal({ onePost, setModal, username, setOnepost }: ModalType) {
+export function Modal({
+  onePost,
+  setModal,
+  username,
+  setOnepost,
+  refetch,
+}: ModalType) {
   const [comment, setComment] = useState<string>("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useUser();
@@ -49,7 +56,11 @@ export function Modal({ onePost, setModal, username, setOnepost }: ModalType) {
                     {user?.user.id !== post.user_id ? (
                       <UserPostName username={username} id={post.user_id} />
                     ) : (
-                      <ButtonDeletePost postID={post.id} />
+                      <ButtonDeletePost
+                        postID={post.id}
+                        setModal={setModal}
+                        refetch={refetch}
+                      />
                     )}
                     <Link to={`/singlepost/${post.id}/${post.user_id}`}>
                       <IoMdReturnRight className="w-6 h-6" />

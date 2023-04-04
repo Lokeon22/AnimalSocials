@@ -1,10 +1,19 @@
 import { api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 interface ButtonDeleteProps {
   postID: number;
+  setModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch?: () => void;
 }
 
-export function ButtonDeletePost({ postID }: ButtonDeleteProps) {
+export function ButtonDeletePost({
+  postID,
+  setModal,
+  refetch,
+}: ButtonDeleteProps) {
+  const navigate = useNavigate();
+
   async function userDeletePost(postID: number) {
     const confirmar = confirm("Deletar post?");
 
@@ -13,7 +22,13 @@ export function ButtonDeletePost({ postID }: ButtonDeleteProps) {
         .delete(`/remove/${postID}`)
         .then((res) => console.log(res.data.message))
         .catch((error: any) => alert(error.status.message));
-      window.location.reload();
+
+      if (setModal && refetch) {
+        setModal(false);
+        refetch();
+      } else {
+        navigate("/");
+      }
     } else {
       return;
     }
