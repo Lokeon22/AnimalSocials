@@ -1,24 +1,27 @@
-import { useEffect, useState } from "react";
 import { api } from "../services/api";
 import { useParams } from "react-router-dom";
 import { useGetPostsDetails } from "../hook/useGetposts";
+import { useQuery } from "@tanstack/react-query";
 
 import { UserDetails } from "../models/@types";
 import { PostType } from "../components/UserPosts";
 import { UserPostsCard } from "../components/UserPostsCard";
+import { Title } from "../components/Title";
 import { Loading } from "../components/Loading";
 
 export function UserProfilePost() {
-  const [posts, setPosts] = useState<PostType[]>([]);
-  const { id } = useParams();
+  const { id } = useParams(); //id = post_id
   const { usuario, loading } = useGetPostsDetails<UserDetails>(id!);
 
   let date_db = usuario?.created_at.slice(0, 10);
   let date_brl = date_db?.split("-").reverse().join("/");
 
-  useEffect(() => {
-    api.get(`/post/${id}`).then((res) => setPosts(res.data));
-  }, []);
+  async function getAllPostsFromUser() {
+    const response = await api.get<PostType[]>(`/post/${id}`);
+    return response.data;
+  }
+
+  const { data } = useQuery(["getAllPostsFromUser"], getAllPostsFromUser);
 
   return (
     <section className="max-w-[1000px] min-h-screen mx-auto my-0 flex-grow px-2 py-2">
@@ -41,8 +44,8 @@ export function UserProfilePost() {
             </div>
           </main>
           <div className="flex flex-wrap justify-start items-center gap-4 mt-5">
-            {posts.length > 0 ? (
-              posts.map((post) => {
+            {data && data.length > 0 ? (
+              data.map((post) => {
                 return (
                   <UserPostsCard
                     key={post.id}
@@ -53,9 +56,11 @@ export function UserProfilePost() {
                 );
               })
             ) : (
-              <h2 className="text-2xl font-medium text-gray-400">
-                Nenhum post encontrado
-              </h2>
+              <Title
+                text="Nenhum post encontrado"
+                color="#b4b4b4"
+                weight="semibold"
+              />
             )}
           </div>
         </>

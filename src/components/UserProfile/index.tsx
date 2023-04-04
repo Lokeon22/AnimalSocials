@@ -47,7 +47,7 @@ export function UserProfile() {
 
   return (
     <section className="w-full h-full px-2 py-2">
-      <Title text="Perfil" />
+      <Title text="Perfil" size="large" />
       <div className="flex justify-center items-center flex-wrap gap-2 sm:gap-4 mb-4">
         <UserAvatar avatar={avatar} handleChangeAvatar={handleChangeAvatar} />
         <ul className="flex flex-col justify-center gap-2">

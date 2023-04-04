@@ -1,7 +1,26 @@
 interface TitleProps {
   text: string;
+  size?: "normal" | "large";
+  color?: string;
+  weight?: "normal" | "semibold";
 }
 
-export function Title({ text }: TitleProps) {
-  return <h2 className="text-3xl mb-5 sm:mb-10">{text}</h2>;
+export function Title({
+  text,
+  size = "normal",
+  color = "black",
+  weight = "normal",
+}: TitleProps) {
+  return (
+    <h2
+      style={{
+        fontSize: size === "normal" ? "1.5rem" : "1.8rem",
+        color: color,
+        fontWeight: weight === "normal" ? "400" : "600",
+      }}
+      className="mb-5"
+    >
+      {text}
+    </h2>
+  );
 }

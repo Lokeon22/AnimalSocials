@@ -49,7 +49,7 @@ export function CreatePost() {
         }}
         className="flex flex-col gap-4"
       >
-        <Title text="Criar Postagem" />
+        <Title text="Criar Postagem" size="large" />
         <Input
           name="titulo"
           placeholder="Titulo"
