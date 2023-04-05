@@ -12,7 +12,7 @@ import { UserComments } from "../UserComments";
 import { CommentForm } from "../CommentForm";
 
 interface ModalType {
-  username: string;
+  username?: string;
   onePost: PostsProps[];
   setModal: Dispatch<SetStateAction<boolean>>;
   setOnepost: React.Dispatch<React.SetStateAction<PostsProps[]>>;

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 interface PostNameProps {
   id: number | string;
-  username: string | undefined;
+  username?: string;
 }
 
 export function UserPostName({ username, id }: PostNameProps) {

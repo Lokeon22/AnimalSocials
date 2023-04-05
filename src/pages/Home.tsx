@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { api } from "../services/api";
 import { useMutation } from "@tanstack/react-query";
 
-import { PostsProps } from "../models/@types";
+import { PostsProps, UserDetails } from "../models/@types";
 import { Modal } from "../components/Modal";
 import { LoadingModal } from "../components/Helper/LoadingModal";
 import { FeedPosts } from "../components/Feed/FeedPosts";
@@ -10,7 +10,6 @@ import { FeedPosts } from "../components/Feed/FeedPosts";
 export function Home() {
   const [modal, setModal] = useState(false);
   const [onePost, setOnepost] = useState<PostsProps[]>([]);
-  const [username, setUsername] = useState<string>("");
 
   const [pages, setPages] = useState<Number[]>([1]);
   const [infinite, setInfinite] = useState<boolean>(true);
@@ -47,9 +46,13 @@ export function Home() {
     }
   );
 
-  function getPostUserName(user_id: number) {
-    api.get(`/show/${user_id}`).then((res) => setUsername(res.data.name));
-  }
+  const { mutate: getUsername, data: username } = useMutation(
+    ["getPostUserName"],
+    async (user_id: number) => {
+      const response = await api.get<UserDetails>(`/show/${user_id}`);
+      return response.data.name;
+    }
+  );
 
   return (
     <>
@@ -72,7 +75,7 @@ export function Home() {
                 modal={modal}
                 setModal={setModal}
                 mutate={mutate}
-                getPostUserName={getPostUserName}
+                getUsername={getUsername}
                 setInfinite={setInfinite}
               />
             );

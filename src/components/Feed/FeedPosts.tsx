@@ -9,7 +9,7 @@ interface FeedPostsProps {
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutate: (id: number) => void;
-  getPostUserName: (id: number) => void;
+  getUsername: (user_id: number) => void;
   setInfinite: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -18,7 +18,7 @@ export function FeedPosts({
   modal,
   setModal,
   mutate,
-  getPostUserName,
+  getUsername,
   setInfinite,
 }: FeedPostsProps) {
   async function getPosts() {
@@ -41,7 +41,7 @@ export function FeedPosts({
     <>
       {isLoading && <LoadingModal />}
       {data &&
-        data.map((post: any) => {
+        data.map((post) => {
           return (
             <Card
               key={post.id}
@@ -51,7 +51,7 @@ export function FeedPosts({
               modal={modal}
               setModal={setModal}
               mutate={mutate}
-              getPostUserName={getPostUserName}
+              getUsername={getUsername}
             />
           );
         })}
