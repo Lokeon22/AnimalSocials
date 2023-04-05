@@ -4,6 +4,8 @@ import { api } from "../services/api";
 import { useUser } from "../context/auth";
 import { useQuery } from "@tanstack/react-query";
 
+import { AdminDelete } from "../components/ButtonDeletePost/adminDelete";
+
 import { PostsProps, UserDetails } from "../models/@types";
 import { UserComments } from "../components/UserComments";
 import { CommentForm } from "../components/CommentForm";
@@ -58,6 +60,7 @@ export function SinglePost() {
                         <ButtonDeletePost postID={post.id} />
                       </div>
                     )}
+                    {!!user?.user.is_admin && <AdminDelete post_id={id} />}
                     <h2 className="text-3xl sm:text-4xl font-bold mb-1">
                       {post.title}
                     </h2>
