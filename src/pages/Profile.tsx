@@ -3,6 +3,7 @@ import { AccountMenu } from "../components/AccountMenu";
 import { UserProfile } from "../components/UserProfile";
 import { CreatePost } from "../components/CreatePost";
 import { UserPosts } from "../components/UserPosts";
+import { NotFound } from "../components/Helper/NotFound";
 
 export function Profile() {
   return (
@@ -15,6 +16,7 @@ export function Profile() {
           <Route path="" element={<UserProfile />} />
           <Route path="userposts" element={<UserPosts />} />
           <Route path="createpost" element={<CreatePost />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </section>
     </main>

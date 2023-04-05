@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { ProtectedRoute } from "../components/Helper/ProtectedRoute";
+import { useUser } from "../context/auth";
 
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
@@ -9,18 +9,13 @@ import { NotFound } from "../components/Helper/NotFound";
 import { UserProfilePost } from "../pages/UserProfilePost";
 
 export function AppRoutes() {
+  const { user } = useUser();
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login/*" element={<Login />} />
-      <Route
-        path="/profile/*"
-        element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        }
-      />
+      {user && <Route path="/profile/*" element={<Profile />} />}
       <Route path="/singlepost/:id/:user_id" element={<SinglePost />} />
       <Route path="/userperfil/:id" element={<UserProfilePost />} />
       <Route path="*" element={<NotFound />} />
