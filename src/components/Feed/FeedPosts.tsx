@@ -26,7 +26,7 @@ export function FeedPosts({
     const response = await api.get<PostsProps[]>(
       `/posts?limit=${total}&page=${page}`
     );
-    if (response && response.statusText && response.data.length < total) {
+    if (response && response.status && response.data.length < total) {
       setInfinite(false);
     }
     return response.data;
