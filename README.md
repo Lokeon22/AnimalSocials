@@ -15,8 +15,9 @@ O aplicativo conta também com a funcionalidade de "Infinite Scroll" para recome
 
 #### Renderizando conteúdo
 
-Na parte principal, o site segue consumindo uma API própria feita em Node.
+Na página principal, o site segue consumindo uma API própria feita em Node.
 Toda parte de pegar os dados da API está sendo feita com Axios e React Query.
+Essa aplicação também possui um User_Admin, ele tem total controle sobre todos os posts.
 
 ## Stack utilizada
 
