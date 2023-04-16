@@ -39,7 +39,7 @@ export function Modal({ onePost, setModal, username, setOnepost }: ModalType) {
               className="fixed w-screen h-screen top-0 left-0 z-50 bg-gray-500 bg-opacity-50 sm:py-8 sm:px-16 px-8 py-8 flex"
               onClick={handleOutsideClick}
             >
-              <div className="w-full md:w-3/5 grid grid-cols-1 grid-rows-[auto_1fr_auto] lg:grid-cols-2 mx-auto my-auto max-h-full h-auto overflow-y-auto lg:h-[600px] rounded-lg overflow-hidden">
+              <div className="animate-modifyScale w-full md:w-3/5 grid grid-cols-1 grid-rows-[auto_1fr_auto] lg:grid-cols-2 mx-auto my-auto max-h-full h-auto overflow-y-auto lg:h-[600px] rounded-lg overflow-hidden">
                 <img
                   src={`${api.defaults.baseURL}/files/${post.image}`}
                   className="w-full h-full object-cover lg:col-span-1 row-[1/4]"

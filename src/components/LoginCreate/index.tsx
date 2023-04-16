@@ -33,7 +33,10 @@ export function LoginCreate() {
 
   return (
     <>
-      <form className="w-max flex flex-col gap-4" onSubmit={handleCreate}>
+      <form
+        className="w-max flex flex-col gap-4 animate-changeOpDire"
+        onSubmit={handleCreate}
+      >
         <span>
           <Link
             className="hover:text-blue-800 hover:ease-in hover:duration-200"

@@ -24,7 +24,7 @@ export function UserProfilePost() {
   const { data } = useQuery(["getAllPostsFromUser"], getAllPostsFromUser);
 
   return (
-    <section className="max-w-[1000px] min-h-screen mx-auto my-0 flex-grow px-2 py-2">
+    <section className="max-w-[1000px] min-h-screen mx-auto my-0 flex-grow px-2 py-2 animate-changeOpDire">
       {loading && <Loading />}
       {usuario && (
         <>

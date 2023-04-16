@@ -7,12 +7,22 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        wiggle: "wiggle 0.4s ease-in",
+        modifyScale: "modifyScale 0.3s ease-in-out",
+        changeOpacity: "changeOpacity 0.7s ease-in-out",
+        changeOpDire: "changeOpDire 0.7s ease",
       },
       keyframes: {
-        wiggle: {
-          "0%": { transform: "translateX(-30px)", opacity: "0.5" },
-          "100%": { transform: "translateX(0px)", opacity: "1" },
+        modifyScale: {
+          "0%": { transform: "scale(0.9)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        changeOpacity: {
+          "100%": { opacity: "1" },
+          "0%": { opacity: "0" },
+        },
+        changeOpDire: {
+          "100%": { opacity: "1", transform: "translateX(0px)" },
+          "0%": { opacity: "0", transform: "translateX(-50px)" },
         },
       },
     },

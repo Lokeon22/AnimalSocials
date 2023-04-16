@@ -34,7 +34,7 @@ export function Card({
 
   return (
     <div
-      className="relative w-full h-full flex hover:cursor-pointer"
+      className="relative w-full h-full flex hover:cursor-pointer animate-changeOpDire"
       onClick={handleOpenModal}
     >
       {skeleton && (

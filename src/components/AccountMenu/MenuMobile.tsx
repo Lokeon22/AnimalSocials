@@ -1,6 +1,16 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useUser } from "../../context/auth";
+import { useUserChat } from "../../context/chat";
+
 import { AiOutlineMenu } from "react-icons/ai";
-import { FiUser, FiGrid, FiPlus, FiLogOut } from "react-icons/fi";
+import {
+  FiUser,
+  FiGrid,
+  FiPlus,
+  FiLogOut,
+  FiMessageSquare,
+} from "react-icons/fi";
 
 import { MenuMobileItem } from "../MenuMobileItem";
 
@@ -10,6 +20,9 @@ interface MenuMobileProps {
 
 export function MenuMobile({ handleLogout }: MenuMobileProps) {
   const [openMenu, setOpenMenu] = useState(false);
+
+  const { user } = useUser();
+  const { handleChatLoguin } = useUserChat();
 
   return (
     <div
@@ -34,6 +47,13 @@ export function MenuMobile({ handleLogout }: MenuMobileProps) {
             linkto="/profile/createpost"
             text="Criar Post"
           />
+          <div
+            className="flex gap-2 items-center hover:text-white"
+            onClick={() => handleChatLoguin(user)}
+          >
+            <FiMessageSquare className="w-[22px] h-[22px]" />
+            <span className="hover:text-black">Chat</span>
+          </div>
           <MenuMobileItem
             icon={<FiLogOut className="w-[22px] h-[22px]" />}
             linkto="/"

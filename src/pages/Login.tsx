@@ -9,7 +9,7 @@ export function Login() {
   return (
     <main className="w-full h-full min-h-screen mx-auto my-0 flex-grow grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-10">
       <img
-        className="w-full h-full object-cover md:block order-last md:order-none"
+        className="w-full h-full object-cover md:block order-last md:order-none animate-changeOpacity"
         src={monkey_wallpaper}
         alt="monkey wallpaper"
       />

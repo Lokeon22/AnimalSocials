@@ -37,3 +37,13 @@ interface Comments {
   user_id: number;
   create_at: string;
 }
+
+export interface UserInfoProps {
+  id: number;
+  is_authenticated: boolean;
+  is_online: boolean;
+  last_message: [];
+  secret: string;
+  username: string;
+  avatar: null;
+}

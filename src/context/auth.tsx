@@ -9,7 +9,6 @@ interface UserContextProps {
   handleLogin: (email: string, password: string) => void;
   handleLogout: () => void;
   handleUpdateProfile: (
-    name: string,
     email: string,
     newpassword: string,
     old_password: string,
@@ -54,7 +53,6 @@ export const UserProvider = ({ children }: ChildrenProps) => {
   }
 
   async function handleUpdateProfile(
-    name: string,
     email: string,
     newpassword: string,
     old_password: string,
@@ -70,7 +68,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
       }
 
       await api
-        .put("/profile", { name, email, password: newpassword, old_password })
+        .put("/profile", { email, password: newpassword, old_password })
         .then((res) => {
           alert(res.data.message);
           navigate("/");
@@ -80,7 +78,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
         setUser({
           user: {
             id: user.user.id,
-            name,
+            name: user.user.name,
             email,
             password: newpassword,
             old_password,

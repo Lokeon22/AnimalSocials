@@ -18,7 +18,7 @@ export function LoginForm() {
           e.preventDefault();
           handleLogin(email, password);
         }}
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-4 animate-changeOpDire"
       >
         <h2 className="text-5xl font-medium mb-4">Login</h2>
         <Input
@@ -37,7 +37,7 @@ export function LoginForm() {
         />
         <Button text="Entrar" />
       </form>
-      <div className="w-max sm:w-full flex flex-col mt-10">
+      <div className="w-max sm:w-full flex flex-col mt-10 animate-changeOpacity">
         <h2 className="max-w-[180px] px-2 py-1 text-3xl text-gray-800 font-medium mb-4 -skew-y-3 bg-blue-200 -inset-1 block">
           Cadastre-se
         </h2>

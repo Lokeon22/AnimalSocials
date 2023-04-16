@@ -1,11 +1,19 @@
 import { Link } from "react-router-dom";
 import { useUser } from "../../context/auth";
-import { FiUser, FiGrid, FiPlus, FiLogOut } from "react-icons/fi";
+import { useUserChat } from "../../context/chat";
+import {
+  FiUser,
+  FiGrid,
+  FiPlus,
+  FiLogOut,
+  FiMessageSquare,
+} from "react-icons/fi";
 
 import { MenuMobile } from "./MenuMobile";
 
 export function AccountMenu() {
-  const { handleLogout } = useUser();
+  const { user, handleLogout } = useUser();
+  const { handleChatLoguin } = useUserChat();
 
   return (
     <>
@@ -29,6 +37,12 @@ export function AccountMenu() {
         >
           <FiPlus className="text-white w-full h-full" />
         </Link>
+        <div
+          onClick={() => handleChatLoguin(user)}
+          className="w-10 h-10 px-2 py-1 bg-black rounded hover:bg-gray-500 hover:border-blue-500 hover:border-2 cursor-pointer"
+        >
+          <FiMessageSquare className="text-white w-full h-full" />
+        </div>
         <Link
           className="w-10 h-10 px-2 py-1 bg-black rounded hover:bg-gray-500 hover:border-blue-500 hover:border-2"
           to="/"

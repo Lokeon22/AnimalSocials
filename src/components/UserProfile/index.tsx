@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AiOutlineUser, AiOutlineMail, AiFillLock } from "react-icons/ai";
+import { AiOutlineMail, AiFillLock } from "react-icons/ai";
 import { useUser } from "../../context/auth";
 import { api } from "../../services/api";
 
@@ -13,7 +13,6 @@ import { Button } from "../Button";
 export function UserProfile() {
   const { user, handleUpdateProfile } = useUser();
 
-  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [oldpassword, setOldpassword] = useState<string>("");
   const [newPassword, setNewpassword] = useState<string>("");
@@ -36,17 +35,11 @@ export function UserProfile() {
   }
 
   async function handleProfile() {
-    await handleUpdateProfile(
-      name,
-      email,
-      newPassword,
-      oldpassword,
-      avatarFile
-    );
+    await handleUpdateProfile(email, newPassword, oldpassword, avatarFile);
   }
 
   return (
-    <section className="w-full h-full px-2 py-2">
+    <section className="w-full h-full px-2 py-2 animate-changeOpDire">
       <Title text="Perfil" size="large" />
       <div className="flex justify-center items-center flex-wrap gap-2 sm:gap-4 mb-4">
         <UserAvatar avatar={avatar} handleChangeAvatar={handleChangeAvatar} />
@@ -68,17 +61,6 @@ export function UserProfile() {
         }}
         className="flex flex-col items-center gap-4"
       >
-        <InputIcon
-          name="username"
-          placeholder="Username"
-          type="text"
-          value={name}
-          required
-          onChange={(e) => setName(e.target.value)}
-          icon={
-            <AiOutlineUser className="absolute top-[15px] left-2 w-5 h-5" />
-          }
-        />
         <InputIcon
           name="email"
           placeholder="Email"

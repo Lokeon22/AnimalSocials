@@ -45,7 +45,7 @@ export function SinglePost() {
             return (
               <div
                 key={post.id}
-                className="max-w-[1000px] h-min mx-auto my-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-5"
+                className="max-w-[1000px] h-min mx-auto my-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 animate-changeOpDire"
               >
                 <img
                   className="w-full h-full md:w-full md:h-[700px] object-cover rounded-md"

@@ -41,7 +41,7 @@ export function CreatePost() {
   }
 
   return (
-    <section className="w-full h-full flex flex-col sm:flex-row gap-5 items-center px-2 py-2">
+    <section className="w-full h-full flex flex-col sm:flex-row gap-5 items-center px-2 py-2 animate-changeOpDire">
       <form
         onSubmit={(e) => {
           e.preventDefault();

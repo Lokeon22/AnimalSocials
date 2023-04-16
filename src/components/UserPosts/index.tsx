@@ -24,7 +24,7 @@ export function UserPosts() {
   const { data, isFetching } = useQuery(["getUserPosts"], getUserPosts);
 
   return (
-    <section className="w-full h-full px-2 py-2">
+    <section className="w-full h-full px-2 py-2 animate-changeOpDire">
       <Title text="Suas Publicações" size="large" />
       <main className="flex flex-wrap justify-center items-center gap-4">
         {isFetching && (
