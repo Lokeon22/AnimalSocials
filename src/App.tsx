@@ -1,7 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./routes/app.routes";
 import { UserProvider } from "./context/auth";
-import { ChatProvider } from "./context/chat";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./services/queryClient";
 
@@ -14,11 +13,9 @@ export const App = () => {
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <UserProvider>
-            <ChatProvider>
-              <Header />
-              <AppRoutes />
-              <Footer />
-            </ChatProvider>
+            <Header />
+            <AppRoutes />
+            <Footer />
           </UserProvider>
         </QueryClientProvider>
       </BrowserRouter>
